@@ -35,8 +35,7 @@ namespace ccnet.hipchat.plugin
             };
 
             var client = new WebClient();
-            byte[] response = client.UploadValues(url, "POST", data);
-            string responseText = Encoding.ASCII.GetString(response);
+            client.UploadValues(url, "POST", data);
         }
     }
 }
