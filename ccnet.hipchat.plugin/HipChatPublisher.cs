@@ -30,7 +30,8 @@ namespace ccnet.hipchat.plugin
             var data = new NameValueCollection {
                 { "room_id", RoomId },
                 { "from", From },
-                { "message", message }
+                { "message", message },
+                { "color", result.Succeeded ? "green" : "red" }
             };
 
             var client = new WebClient();
