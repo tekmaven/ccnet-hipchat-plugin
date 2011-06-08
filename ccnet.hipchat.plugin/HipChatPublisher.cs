@@ -31,7 +31,8 @@ namespace ccnet.hipchat.plugin
                 { "room_id", RoomId },
                 { "from", From },
                 { "message", message },
-                { "color", result.Succeeded ? "green" : "red" }
+                { "color", result.Succeeded ? "green" : "red" },
+                { "notify", result.Succeeded ? "0" : "1" }
             };
 
             var client = new WebClient();
