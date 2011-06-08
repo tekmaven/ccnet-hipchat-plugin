@@ -27,10 +27,11 @@ namespace ccnet.hipchat.plugin
             var message = string.Format("[CCNET] - {0} build complete. Result: {1}", result.ProjectName, result.Status);
             var url = string.Format("http{0}://api.hipchat.com/v1/rooms/message/?auth_token={1}", IsHttps ? "s" : "", AuthToken);
 
-            var data = new NameValueCollection();
-            data.Add("room_id", RoomId);
-            data.Add("from", From);
-            data.Add("message", message);
+            var data = new NameValueCollection {
+                { "room_id", RoomId },
+                { "from", From },
+                { "message", message }
+            };
 
             var client = new WebClient();
             byte[] response = client.UploadValues(url, "POST", data);
