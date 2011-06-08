@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Specialized;
 using System.Net;
-using System.Collections.Specialized;
+using System.Text;
+
 using Exortech.NetReflector;
 using ThoughtWorks.CruiseControl.Core;
-using ThoughtWorks.CruiseControl.Core.Util;
 
 namespace ccnet.hipchat.plugin
 {
