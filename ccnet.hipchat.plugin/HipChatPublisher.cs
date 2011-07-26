@@ -1,6 +1,5 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
-using System.Text;
 
 using Exortech.NetReflector;
 using ThoughtWorks.CruiseControl.Core;
