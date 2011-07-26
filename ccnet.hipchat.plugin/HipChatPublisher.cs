@@ -24,8 +24,8 @@ namespace ccnet.hipchat.plugin
 
         public void Run(IIntegrationResult result)
         {
-            var message = string.Format("[CCNET] - {0} build complete. Result: {1}", result.ProjectName, result.Status);
-            var url = string.Format("http{0}://api.hipchat.com/v1/rooms/message/?auth_token={1}", IsHttps ? "s" : "", AuthToken);
+            var link = string.Format(@"<a href=""{0}"">{1}</a>", LogFileUtil.CreateUrl(result), result.Status);
+            var message = string.Format("{0} build complete (duration {1}). Result: {2}", result.ProjectName, buildTime, link);
 
             var data = new NameValueCollection {
                 { "room_id", RoomId },
@@ -36,6 +36,7 @@ namespace ccnet.hipchat.plugin
             };
 
             var client = new WebClient();
+            var url = string.Format("http{0}://api.hipchat.com/v1/rooms/message/?auth_token={1}", IsHttps ? "s" : "", AuthToken);
             client.UploadValues(url, "POST", data);
         }
     }
