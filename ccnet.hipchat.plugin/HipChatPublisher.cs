@@ -24,7 +24,12 @@ namespace ccnet.hipchat.plugin
 
         public void Run(IIntegrationResult result)
         {
+            var duration = result.EndTime - result.StartTime;
+            var buildTime = string.Format("{0}:{1}.{2}", duration.Minutes, duration.Seconds, duration.Milliseconds);
+
+            var logpath = LogFileUtil.CreateUrl(result);
             var link = string.Format(@"<a href=""{0}"">{1}</a>", LogFileUtil.CreateUrl(result), result.Status);
+
             var message = string.Format("{0} build complete (duration {1}). Result: {2}", result.ProjectName, buildTime, link);
 
             var data = new NameValueCollection {
