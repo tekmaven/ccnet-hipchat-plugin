@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Specialized;
 using System.Net;
-using System.Collections.Specialized;
+
 using Exortech.NetReflector;
 using ThoughtWorks.CruiseControl.Core;
-using ThoughtWorks.CruiseControl.Core.Util;
 
 namespace ccnet.hipchat.plugin
 {
@@ -27,17 +23,25 @@ namespace ccnet.hipchat.plugin
 
         public void Run(IIntegrationResult result)
         {
-            var message = string.Format("[CCNET] - {0} build complete. Result: {1}", result.ProjectName, result.Status);
-            var url = string.Format("http{0}://api.hipchat.com/v1/rooms/message/?auth_token={1}", IsHttps ? "s" : "", AuthToken);
+            var duration = result.EndTime - result.StartTime;
+            var buildTime = string.Format("{0}:{1}.{2}", duration.Minutes, duration.Seconds, duration.Milliseconds);
 
-            var data = new NameValueCollection();
-            data.Add("room_id", RoomId);
-            data.Add("from", From);
-            data.Add("message", message);
+            var logpath = LogFileUtil.CreateUrl(result);
+            var link = string.Format(@"<a href=""{0}"">{1}</a>", LogFileUtil.CreateUrl(result), result.Status);
+
+            var message = string.Format("{0} build complete (duration {1}). Result: {2}", result.ProjectName, buildTime, link);
+
+            var data = new NameValueCollection {
+                { "room_id", RoomId },
+                { "from", From },
+                { "message", message },
+                { "color", result.Succeeded ? "green" : "red" },
+                { "notify", result.Succeeded ? "0" : "1" }
+            };
 
             var client = new WebClient();
-            byte[] response = client.UploadValues(url, "POST", data);
-            string responseText = Encoding.ASCII.GetString(response);
+            var url = string.Format("http{0}://api.hipchat.com/v1/rooms/message/?auth_token={1}", IsHttps ? "s" : "", AuthToken);
+            client.UploadValues(url, "POST", data);
         }
     }
 }
