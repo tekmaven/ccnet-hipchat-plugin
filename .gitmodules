@@ -1,3 +1,3 @@
 [submodule "HipChat.net"]
 	path = HipChat.net
-	url = git://github.com/moserware/HipChat.net.git
+	url = git@github.com:tekmaven/HipChat.net.git
