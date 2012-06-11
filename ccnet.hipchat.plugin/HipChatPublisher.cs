@@ -1,7 +1,9 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Net;
 
 using Exortech.NetReflector;
+using HipChat;
 using ThoughtWorks.CruiseControl.Core;
 
 namespace ccnet.hipchat.plugin
@@ -21,27 +23,50 @@ namespace ccnet.hipchat.plugin
         [ReflectorProperty("from")]
         public string From { get; set; }
 
+        [ReflectorProperty("message", Required=false)]
+        public string Message { get; set; }
+
+        [ReflectorProperty("hide-result", Required = false)]
+        public bool HideResult { get; set; }
+
         public void Run(IIntegrationResult result)
         {
-            var duration = result.EndTime - result.StartTime;
-            var buildTime = string.Format("{0}:{1}.{2}", duration.Minutes, duration.Seconds, duration.Milliseconds);
+            var displayDuration = false;
+            var duration = TimeSpan.Zero;
+            if (result.EndTime != DateTime.MinValue)
+            {
+                duration = result.EndTime - result.StartTime;
+                displayDuration = true;
+            }
+            var link = String.Format(@"<a href=""{0}"">{1}</a>", result.ProjectUrl, result.Status);
 
-            var logpath = LogFileUtil.CreateUrl(result);
-            var link = string.Format(@"<a href=""{0}"">{1}</a>", LogFileUtil.CreateUrl(result), result.Status);
+            if(String.IsNullOrEmpty(Message))
+            {
+                Message = "build complete";
+            }
 
-            var message = string.Format("{0} build complete (duration {1}). Result: {2}", result.ProjectName, buildTime, link);
+            if(displayDuration)
+            {
+                Message = String.Format("{0} (duration {1})", Message, duration);
+            }
 
-            var data = new NameValueCollection {
-                { "room_id", RoomId },
-                { "from", From },
-                { "message", message },
-                { "color", result.Succeeded ? "green" : "red" },
-                { "notify", result.Succeeded ? "0" : "1" }
-            };
+            if(!HideResult)
+            {
+                Message = String.Format("{0}. Result: {1}.", Message, link);
+            }
 
-            var client = new WebClient();
-            var url = string.Format("http{0}://api.hipchat.com/v1/rooms/message/?auth_token={1}", IsHttps ? "s" : "", AuthToken);
-            client.UploadValues(url, "POST", data);
+            var message = string.Format("{0} {1}", result.ProjectName, Message);
+            
+            var notify = result.Succeeded;
+            var color = result.Succeeded ? HipChatClient.BackgroundColor.green : HipChatClient.BackgroundColor.red;
+
+            if(HideResult)
+            {
+                color = HipChatClient.BackgroundColor.yellow;
+            }
+
+            var client = new HipChatClient(AuthToken, RoomId, From);
+            client.SendMessage(message, color, notify);
         }
     }
 }

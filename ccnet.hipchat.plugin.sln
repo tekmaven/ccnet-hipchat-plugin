@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ccnet.hipchat.plugin", "ccnet.hipchat.plugin\ccnet.hipchat.plugin.csproj", "{C0D6D28A-FBD3-45C3-922E-A180426463DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HipChatClient", "HipChat.net\HipChatClient\HipChatClient.csproj", "{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,16 @@ Global
 		{C0D6D28A-FBD3-45C3-922E-A180426463DF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C0D6D28A-FBD3-45C3-922E-A180426463DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C0D6D28A-FBD3-45C3-922E-A180426463DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|x86.ActiveCfg = Debug|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|x86.Build.0 = Debug|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|Any CPU.ActiveCfg = Release|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|x86.ActiveCfg = Release|x86
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
