@@ -15,6 +15,10 @@ Add the following to your ccnet.config publishers block:
 	room-id="integer room id or string room name"
 	from="who the message is from, usually Robot Llama"
 	auth-token="your auth token"
+	message="optional message.  if null/empty, it will output build complete"
+	hide-result="true or false"
 />
 
 ```
+
+Setting hide-result to true will hide the build result from the message, as well as change the message color to yellow.  This is useful for announcing in-build events, such as build started.
