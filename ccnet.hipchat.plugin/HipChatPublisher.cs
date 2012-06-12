@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Net;
-
+using System.Text;
 using Exortech.NetReflector;
 using HipChat;
 using ThoughtWorks.CruiseControl.Core;
@@ -39,23 +39,33 @@ namespace ccnet.hipchat.plugin
                 displayDuration = true;
             }
             var link = String.Format(@"<a href=""{0}"">{1}</a>", result.ProjectUrl, result.Status);
+            
+            var message = new StringBuilder();
+            message.Append(result.ProjectName);
+            message.Append(" ");
 
             if(String.IsNullOrEmpty(Message))
             {
-                Message = "build complete";
+                message.Append("build complete");
             }
+            else
+            {
+                message.Append(Message);
+            }
+
+            message.Append(" ");
 
             if(displayDuration)
             {
-                Message = String.Format("{0} (duration {1})", Message, duration);
+                message.AppendFormat("(duration {0})", duration);
             }
+
+            message.Append(". ");
 
             if(!HideResult)
             {
-                Message = String.Format("{0}. Result: {1}.", Message, link);
+                message.AppendFormat("Result: {0}.", link);
             }
-
-            var message = string.Format("{0} {1}", result.ProjectName, Message);
             
             var notify = result.Succeeded;
             var color = result.Succeeded ? HipChatClient.BackgroundColor.green : HipChatClient.BackgroundColor.red;
@@ -66,7 +76,7 @@ namespace ccnet.hipchat.plugin
             }
 
             var client = new HipChatClient(AuthToken, RoomId, From);
-            client.SendMessage(message, color, notify);
+            client.SendMessage(message.ToString(), color, notify);
         }
     }
 }
